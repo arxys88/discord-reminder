@@ -1,0 +1,18 @@
+name: Bot Renew Reminder
+
+on:
+  schedule:
+    # 每 3 天的 UTC 15:00（台灣時間晚上 23:00）自動觸發
+    - cron: '0 15 */3 * *'
+  workflow_dispatch: # 保留手動立即測試按鈕
+
+jobs:
+  send_reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Webhook
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{"content": "🏮 太白提醒：Bot-Hosting 續期時間已到，請前往控制台點擊 Renew！"}' \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
